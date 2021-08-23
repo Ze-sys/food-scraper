@@ -1,0 +1,7 @@
+.ipynb_checkpoints/*
+.vscode/*
+SWEETVIZ_REPORT.html
+food-for-thought-and-ml-one-author.ipynb
+scrapy_pracitce/*
+myApps/recipes_app.py
+*.pyc

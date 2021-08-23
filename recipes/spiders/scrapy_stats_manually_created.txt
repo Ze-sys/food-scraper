@@ -1,0 +1,102 @@
+# this is simply a copy from the terminal after finishing the first big scarpy crwaling on allrecipes.com
+
+#---------------this is a result for a fresh scaping of over 5000 request of multiple recipes
+
+2021-08-17 19:08:58 [scrapy.core.engine] INFO: Closing spider (finished)
+2021-08-17 19:08:58 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 3340193,
+ 'downloader/request_count': 5130,
+ 'downloader/request_method_count/GET': 5130,
+ 'downloader/response_bytes': 294572619,
+ 'downloader/response_count': 5130,
+ 'downloader/response_status_count/200': 5129,
+ 'downloader/response_status_count/403': 1,
+ 'elapsed_time_seconds': 18703.884388,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2021, 8, 18, 2, 8, 58, 11999),
+ 'httpcompression/response_bytes': 1791114837,
+ 'httpcompression/response_count': 5130,
+ 'httperror/response_ignored_count': 1,
+ 'httperror/response_ignored_status_count/403': 1,
+ 'item_scraped_count': 5128,
+ 'log_count/DEBUG': 10259,
+ 'log_count/INFO': 322,
+ 'memusage/max': 223956992,
+ 'memusage/startup': 120791040,
+ 'response_received_count': 5130,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 5129,
+ 'scheduler/dequeued/memory': 5129,
+ 'scheduler/enqueued': 5129,
+ 'scheduler/enqueued/memory': 5129,
+ 'start_time': datetime.datetime(2021, 8, 17, 20, 57, 14, 127611)}
+2021-08-17 19:08:58 [scrapy.core.engine] INFO: Spider closed (finished)
+
+#------------------------------------------
+
+# desserts
+
+2021-08-16 15:49:52 [scrapy.core.engine] INFO: Closing spider (finished)
+2021-08-16 15:49:52 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 163619,
+ 'downloader/request_count': 252,
+ 'downloader/request_method_count/GET': 252,
+ 'downloader/response_bytes': 14457293,
+ 'downloader/response_count': 252,
+ 'downloader/response_status_count/200': 252,
+ 'elapsed_time_seconds': 930.676985,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2021, 8, 16, 22, 49, 52, 175802),
+ 'httpcompression/response_bytes': 88252087,
+ 'httpcompression/response_count': 252,
+ 'item_scraped_count': 251,
+ 'log_count/DEBUG': 504,
+ 'log_count/ERROR': 1,
+ 'log_count/INFO': 25,
+ 'memusage/max': 211357696,
+ 'memusage/startup': 120631296,
+ 'response_received_count': 252,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 251,
+ 'scheduler/dequeued/memory': 251,
+ 'scheduler/enqueued': 251,
+ 'scheduler/enqueued/memory': 251,
+ 'start_time': datetime.datetime(2021, 8, 16, 22, 34, 21, 498817)}
+2021-08-16 15:49:52 [scrapy.core.engine] INFO: Spider closed (finished)
+
+# chickens
+
+
+2021-08-14 14:28:03 [scrapy.core.engine] INFO: Closing spider (finished)
+2021-08-14 14:28:03 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 169342,
+ 'downloader/request_count': 260,
+ 'downloader/request_method_count/GET': 260,
+ 'downloader/response_bytes': 15879822,
+ 'downloader/response_count': 260,
+ 'downloader/response_status_count/200': 260,
+ 'elapsed_time_seconds': 954.611453,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2021, 8, 14, 21, 28, 3, 543092),
+ 'httpcompression/response_bytes': 99194492,
+ 'httpcompression/response_count': 260,
+ 'item_scraped_count': 259,
+ 'log_count/DEBUG': 520,
+ 'log_count/ERROR': 1,
+ 'log_count/INFO': 25,
+ 'memusage/max': 204034048,
+ 'memusage/startup': 102363136,
+ 'response_received_count': 260,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 259,
+ 'scheduler/dequeued/memory': 259,
+ 'scheduler/enqueued': 259,
+ 'scheduler/enqueued/memory': 259,
+ 'start_time': datetime.datetime(2021, 8, 14, 21, 12, 8, 931639)}
+2021-08-14 14:28:03 [scrapy.core.engine] INFO: Spider closed (finished)
