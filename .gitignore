@@ -1,8 +1,9 @@
 .ipynb_checkpoints/*
-*.vscode/*
-
+.vscode/*
+recipes/.vscode/*
 food-for-thought-and-ml-one-author.ipynb
 scrapy_pracitce/*
 myApps/recipes_app.py
 *.pyc
+SWEETVIZ_REPORT.html
 recipes/recipes
