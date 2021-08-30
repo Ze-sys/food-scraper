@@ -1,4 +1,5 @@
 .ipynb_checkpoints/*
+recipes/.ipynb_checkpoints/*
 .vscode/*
 recipes/.vscode/*
 food-for-thought-and-ml-one-author.ipynb
