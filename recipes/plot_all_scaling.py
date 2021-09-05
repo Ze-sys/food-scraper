@@ -116,7 +116,7 @@ def zscale(X, y_full, xlable_,ylable_):
     # plasma does not exist in matplotlib < 1.5
     cmap = getattr(cm, 'plasma_r', cm.hot_r)
 
-    def create_axes(title, figsize=(12, 6)):
+    def create_axes(title, figsize=(8,4)): #(12, 6)):
         fig = plt.figure(figsize=figsize)
         fig.suptitle(title)
 
@@ -224,7 +224,7 @@ def zscale(X, y_full, xlable_,ylable_):
         norm = mpl.colors.Normalize(y_full.min(), y_full.max())
         mpl.colorbar.ColorbarBase(ax_colorbar, cmap=cmap,
                                 norm=norm, orientation='vertical',
-                                label='Color mapping for values of y')
+                                label=f'Color mapping for values of {ylable_}')
 
 
     # %%
