@@ -28,7 +28,7 @@ A simple vacation project done in summer of 2021 to
 # Summary
 I scrpaed 5000+ food recipes from a website using scrapy, built a database using mongoDB, built machine learning models using scikit-learn, built a web app to visualize the data and model predictions using streamlit. The main goal of this project was to document the tools and techniques that I thought myself and reference some of them in the future.
 
-Links to the source code:
+Links to some of my codes in this repository:
 - [notebook-1: ](recipes/food-for-thought-and-ml.ipynb)
 - [notebook-2: ](recipes/food-for-thought-and-atom.ipynb)
 - [get_urls_with_selenium.ipynb](recipes/get_urls_with_selenium.ipynb)
