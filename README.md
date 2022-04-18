@@ -4,14 +4,14 @@ A simple vacation project done in summer of 2021 to
  - Build a NoSQL database using mongoDB
  - Build machine learning models using scikit-learn
  - Build a web app to visualize the data and model predictions using streamlit
- - Deployed app on streamlit share or other cloud services
+ - Deploy app on streamlit share or other cloud services
 
 # Tools and techniques mastered
 - Selenium
 - Scrapy, middlewares, pipelines, spiders
 - MongoDB, mongosh, NoSQLBooster
 - Database management, securing database following industry standards, querying, and data visualization
-- Scikit-learn
+- Scikit-learn, logistic regression, random forest, kmeans, agglomerative clustering & regression, preprocessing, model selection, feature engineering,  t-SNE, PCA, and more
 - Streamlit
 - Data wrangling
 - EDA
