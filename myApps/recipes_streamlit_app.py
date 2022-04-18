@@ -1,6 +1,7 @@
 
 import streamlit as st
 st.set_page_config(layout="wide")
+import pdoc
 
 import pandas as pd
 import sys
@@ -13,6 +14,7 @@ site_package_path = glob.glob("/home/*/my_repos/mygithubrepos/vacation-projects/
 sys.path.append(site_package_path)
 from pymongo import MongoClient, collation
 from pymongo.errors import ConnectionFailure
+import streamlit.components.v1 as components
 
 with open(glob.glob('/home/*/*/*/mymongo')[0]) as f:
     pass_key = f.read()
@@ -24,19 +26,38 @@ user_name = 'ze_readOnly'
 client = MongoClient()
 try:
     client = MongoClient(username=user_name, password=pass_key)
-    st.write('Server available, you are authenticated as user %s.'%(user_name))
+    print('Server available, you are authenticated as user %s.'%(user_name))
 
 except ConnectionFailure:
-    st.write("Server not available")
+    print("Server not available")
 
 db = client.allrecipes    
 collection = db.recipes
      
+# a class to replace some loops later     
+class contents:
+    def __init__(self,dict_):
+            self._id =  dict_.get('_id')
+            self.title = dict_.get('title')
+            self.Author =  dict_.get('Author')
+            self.ingredient = dict_.get('ingredient')
+            self.direction =  dict_.get('direction')
+            self.nutrition_per_serving = dict_.get('nutrition_per_serving')
+            self.total_ratings =  dict_.get('total_ratings')
+            self.ratings =  dict_.get('ratings')
+            self.prep =  dict_.get('prep')
+            self.cook = dict_.get('cook')
+            self.additional = dict_.get('additional') 
+            self.total =  dict_.get('total')
+            self.Servings =  dict_.get('Servings')
+            self.Yield = dict_.get('Yield')
+    def df(self):
+        return pd.DataFrame(self.__dict__)    
+
 
 # for parsing the collection data
 def append_value(dict_obj, key, value):
     return [dict_obj[k].append(v) for k,v in zip(key,value)]
-
 
 # append all dicts of recipes 
 reciped = {'_id': [], 'title': [], 'Author': [], 'ingredient': [], 'direction': [], 
@@ -50,7 +71,9 @@ for recipe in collection.find({"Author": 'MakeItHealthy'}):
     if recipe.get('nutrition_per_serving'):  # <<--- this is because there are recipes (43 currently) that have no nutirtion info 
        values = [recipe.get(k) for k in keys]
        append_value(reciped,keys,values)
+# va = contents(recipe)
 
+# st.write(va)
 # create a pandas data frame
 allkeys = list(reciped.keys())
 df = pd.DataFrame([reciped[k] for k in keys]).T
@@ -121,10 +144,9 @@ SOD = np.array([1, 2])    # min and max of Sodium
 # Pretend we are food experts... and rate food. Ignore food that does not have fat, protien,carbs and sodium for simpilfying task
 # This might be what they call feature engineering.
 # need to cache this function as it is the slowest
-# @st.cache 
-def food_rater(dff):
-    df = copy.deepcopy(dff)
 
+@st.cache(allow_output_mutation=True)
+def food_rater(df):
     LIST1 = list(np.sort(['sodium', 'carbohydrates', 'protein', 'fat']))
     LIST2 = list(np.sort(list(set(['fat', 'protein', 'sodium', 'carbohydrates']).intersection(set(df.columns))))) 
 
@@ -136,7 +158,7 @@ def food_rater(dff):
             Xpro = 4.0*df['protein'].get('nut_value')/tot_cal
             Xfat = 9.0*df['fat'].get('nut_value')/tot_cal
             Xsod = df['sodium'].get('nut_value')/tot_cal
-            Xchol = 'NA'
+            Xchol = np.nan 
         else:
             tot_cal = 4.0*df['carbohydrates'].get('nut_value') +4.0*df['protein'].get('nut_value') + 9.0*df['fat'].get('nut_value') +0.009*df['cholesterol'].get('nut_value') 
                     # assuming unit is mg and cholestrol is still fat with 9 cal/gram cal source
@@ -154,15 +176,15 @@ def food_rater(dff):
                 df.loc['nut_value','cholesterol_level'] = 'normal'  
     else:
         tot_cal = np.nan 
-        Xcarb = 'NA'
-        Xpro = 'NA'
-        Xfat = 'NA'
-        Xsod = 'NA'
-        Xchol = 'NA'
+        Xcarb = np.nan 
+        Xpro = np.nan 
+        Xfat = np.nan 
+        Xsod = np.nan 
+        Xchol = np.nan 
 
         
         
-    if Xcarb != 'NA':  
+    if Xcarb != np.nan :  
 
         if Xcarb  <= CARB[0]:
             df.loc['nut_value','carbohydrates_level'] = 'low'
@@ -177,7 +199,7 @@ def food_rater(dff):
             df.loc['nut_value','carbohydrates_level'] = np.nan 
             df.loc['nut_value','carbohydrates_score'] = np.nan
     
-    if Xpro != 'NA':  
+    if Xpro != np.nan :  
 
         if Xpro  <= PRO[0]:
             df.loc['nut_value','protien_level'] = 'low'
@@ -193,7 +215,7 @@ def food_rater(dff):
             df.loc['nut_value','protien_score'] = np.nan
 
 
-    if Xfat != 'NA':    
+    if Xfat != np.nan :    
         
         if Xfat  <= FAT[0]:
             df.loc['nut_value','fat_level'] = 'low'
@@ -208,7 +230,7 @@ def food_rater(dff):
             df.loc['nut_value','fat_level'] = np.nan
             df.loc['nut_value','fat_score'] = np.nan
         
-    if Xsod != 'NA':
+    if Xsod != np.nan :
         if Xsod <= 1: 
             df.loc['nut_value','sodium_level'] = 'good' 
             df.loc['nut_value','sodium_score'] = 2
@@ -224,11 +246,11 @@ def food_rater(dff):
 
     tot_score = df.fillna(0).loc['nut_value',['_score' in col for col in  df.columns]].sum()
     if tot_score in [0,2]:
-        df['overall_food_quality'] = 'bad'
+        df.loc['nut_value','overall_food_quality'] = 'bad'
     elif tot_score in [3,4]:
-        df['overall_food_quality'] = 'good'
+        df.loc['nut_value','overall_food_quality'] = 'good'
     else:
-        df['overall_food_quality'] = 'excellent'
+        df.loc['nut_value','overall_food_quality'] = 'excellent'
     return df
 
 
@@ -239,14 +261,27 @@ def rate_(dff):
     food=pd.DataFrame()
     for ids in dff['_id'].values:
         try:
-            tot_cal = food_rater(dnut.get(str(ids)))
-            tot_cal['food_id'] = ids
+            # In order to use the cached data ( without mutating, I'll work with its copy)
+            tot_cal = copy.deepcopy(food_rater(dnut.get(str(ids))))
+            tot_cal.loc[:,'food_id'] = ids
             food = food.append(tot_cal)
         except AttributeError:
             pass
     return food
+rated_food = rate_(dff)
 
-food = rate_(dff)
+# # some useful data are still not in useable form for anlysis.  Try this...
+# list_to_float = ['calories', 'protein','carbohydrates', 'fat', 'cholesterol','sodium']
+# float_dict = {key:'float' for key in list_to_float}
+# rated_food = rated_food['protein'].astype('float64') 
+
+# list_to_cat = ['protein_level','carbohydrates_level', 'fat_level', 'cholesterol_level','sodium_level']
+# cat_dict = {key:'category' for key in list_to_cat}
+# rated_food = rated_food.astype(float_dict) 
+
+# list_to_int = ['protein_score','carbohydrates_score', 'fat_score', 'cholesterol_score','sodium__score']
+# int_dict = {key:'int' for key in list_to_int}
+# rated_food = rated_food.astype(int_dict) 
 
 
 
@@ -286,5 +321,49 @@ food = rate_(dff)
 # df = pd.DataFrame(data).T
 
 # df.columns = colnames
-food.food_id = food.food_id.astype('str')
-st.write(food.loc['nut_value'].head())
+rated_food.food_id = rated_food.food_id.astype('str')
+# st.write(rated_food.loc['nut_value'].drop(columns='food_id').head())
+
+recipe_selected = st.selectbox(label='Slect recipe',
+options=dff.title)
+
+
+selected_rated_food = rate_(dff[dff.title==recipe_selected])
+
+# st.write(selected_rated_food.loc['nut_value'].drop(columns='food_id').head())
+
+
+st.write(selected_rated_food.select_dtypes('O').astype(str).drop(columns='food_id'))
+
+
+
+
+
+
+
+
+# st.write(rated_food.dtypes)
+# recipe_id = dff[dff.title == recipe_selected]._id.values[0]
+# st.write(rated_food[rated_food.loc[:,'food_id'] == str(recipe_id)])
+
+# modules = ['re', 'copy']  # Public submodules are auto-imported
+# context = pdoc.Context()
+# modules = [pdoc.Module(mod, context=context)
+#            for mod in modules]
+# pdoc.link_inheritance(context)
+# def recursive_htmls(mod):
+#     yield mod.name, mod.html()
+#     for submod in mod.submodules():
+#         yield from recursive_htmls(submod)
+# for mod in modules:
+#     for module_name, html in recursive_htmls(mod):
+#         ...  # Process
+
+
+# st.header("App Documentations")
+
+
+# HtmlFile = open("/home/zelalem/my_repos/mygithubrepos/food-scraper/html/recipes_streamlit_app.html", 'r', encoding='utf-8')
+# source_code = HtmlFile.read() 
+# print(source_code)
+# components.html(source_code,height = 2000)  
